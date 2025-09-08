@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <script>
+      // Set theme ASAP to prevent icon flicker before CSS loads
+      try {
+        var t = localStorage.getItem('theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <title>Portfolio</title>
+    <style>
+      :root {
+        --accent: hsl(260 85% 52%);
+      }
+      header .logo { font-weight: 700; letter-spacing: 0.2px; }
+      .hero { display: grid; gap: 2rem; align-items: center; grid-template-columns: 1.2fr 0.8fr; }
+      .avatar { width: 200px; height: 200px; border-radius: 100%; object-fit: cover; border: 4px solid var(--accent); }
+      .tagline { color: var(--accent); font-weight: 600; }
+      @media (max-width: 900px) { .hero { grid-template-columns: 1fr; justify-items: center; text-align: center; } }
+      .grid-cards { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+      .badge { display: inline-block; padding: 0.35rem 0.6rem; border-radius: 999px; background: var(--accent); color: white; font-size: 0.9rem; margin: 0 0.35rem 0.35rem 0; transition: transform 120ms ease, box-shadow 120ms ease; transform: perspective(600px) translateZ(0); transform-style: preserve-3d; will-change: transform; }
+      .badge.tilt { transform: perspective(600px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(var(--tz, 0)); box-shadow: 0 6px 14px rgba(0,0,0,0.12); }
+      @media (prefers-reduced-motion: reduce) { .badge { transition: none; } }
+      footer { margin-top: 3rem; }
+
+      /* Company logo layout */
+      .company { display: grid; grid-template-columns: 56px 1fr; gap: 1rem; align-items: center; }
+      .company-logo { width: 56px; height: 56px; object-fit: contain; border-radius: 10px; padding: 6px; background: var(--pico-card-background-color, #fff); box-shadow: 0 1px 6px rgba(0,0,0,0.08); opacity: 1; transition: transform .12s ease, box-shadow .12s ease; }
+      .company-logo:hover { transform: scale(1.03); box-shadow: 0 2px 12px rgba(0,0,0,0.12); }
+      @media (max-width: 600px) { .company { grid-template-columns: 48px 1fr; } .company-logo { width: 48px; height: 48px; } }
+
+      /* Theme toggle */
+      /* Understated icon-only toggle */
+      #themeToggle { display: inline-grid; place-items: center; padding: .38rem .38rem; border: 0; background: transparent; box-shadow: none; border-radius: 6px; color: var(--pico-muted-color); line-height: 1; }
+      #themeToggle:hover { color: var(--accent); background: transparent; }
+      #themeToggle:focus-visible { outline: 2px solid color-mix(in oklab, var(--accent) 35%, transparent); outline-offset: 2px; }
+      #themeToggle svg { width: 18px; height: 18px; opacity: .9; display: block; }
+      #themeToggle:hover svg { opacity: 1; }
+      /* Ensure only one icon shows at a time */
+      html[data-theme="dark"] #themeToggle .icon-sun { display: none !important; }
+      html[data-theme="light"] #themeToggle .icon-moon { display: none !important; }
+    </style>
+  </head>
+  <body>
+    <header class="container">
+      <nav>
+        <ul>
+          <li><strong class="logo">Brian Wisniewski</strong></li>
+        </ul>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="resume.pdf" target="_blank" rel="noopener">Résumé</a></li>
+          <li>
+            <button id="themeToggle" aria-label="Toggle color scheme">
+              <!-- Sun (stroke icon) -->
+              <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5.64 5.64 4.22 4.22M19.78 19.78l-1.42-1.42M5.64 18.36 4.22 19.78M19.78 4.22l-1.42 1.42"></path>
+              </svg>
+              <!-- Moon (filled icon) -->
+              <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"></path>
+              </svg>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <div>
+          <h1>Hi, I’m <span class="tagline">Brian</span></h1>
+          <p class="lead">Computer Science @ Clemson · Software Engineer/Automation</p>
+          <p>
+            I design automation pipelines and backend services that turn raw data into
+            actionable insight. Recent work spans cloud microservices (AWS, Docker) for
+            satellite telemetry at AST SpaceMobile and large-scale QA automation at Domtar.
+          </p>
+          <p>
+            <a role="button" class="primary" href="#projects">View Projects</a>
+            <a role="button" href="#contact">Get in Touch</a>
+          </p>
+        </div>
+        <div style="justify-self:center">
+          <img class="avatar" src="headshot.jpg" alt="Headshot for portfolio">
+        </div>
+      </section>
+
+      <section id="about">
+        <h2>About</h2>
+        <p>
+          I’m a Clemson University Computer Science student (BS, May 2026, MIS minor, GPA 4.0) focused on
+          building reliable automation, data processing pipelines, and embedded integrations. I enjoy working across
+          the stack—from microservices and event-driven systems to low-level C/C++—to ship systems that save time and
+          scale smoothly.
+        </p>
+        <p>
+          <span class="badge">Python</span>
+          <span class="badge">C</span>
+          <span class="badge">C++</span>
+          <span class="badge">Java</span>
+          <span class="badge">AWS (Lambda, S3)</span>
+          <span class="badge">Docker</span>
+          <span class="badge">Linux</span>
+          <span class="badge">TensorFlow</span>
+          <span class="badge">Git</span>
+        </p>
+      </section>
+
+      <section id="experience">
+        <h2>Experience</h2>
+        <article>
+          <header class="company">
+            <a href="https://ast-science.com/" target="_blank" rel="noopener">
+              <img class="company-logo" src="logos/ast-spacemobile.png" alt="AST SpaceMobile logo">
+            </a>
+            <div>
+              <h3>Software Engineer Intern — AST SpaceMobile</h3>
+              <small>May 2025 – Aug 2025 · Lanham, MD</small>
+            </div>
+          </header>
+          <ul>
+            <li>Built cloud automation in Python, Docker, and AWS Lambda to parse satellite telemetry binaries, enabling near real-time reporting and saving 40+ hours/week across four workstations.</li>
+            <li>Designed microservices around S3/MinIO event triggers to auto-process and ingest test logs, eliminating manual transfers and accelerating data availability.</li>
+            <li>Implemented a UART-based driver to integrate a new hardware component into the satellite bus for upcoming missions.</li>
+          </ul>
+        </article>
+        <article>
+          <header class="company">
+            <a href="https://www.domtar.com/" target="_blank" rel="noopener">
+              <img class="company-logo" src="logos/domtar.png" alt="Domtar logo">
+            </a>
+            <div>
+              <h3>Software Quality Assurance Intern — Domtar</h3>
+              <small>Jun 2024 – Aug 2024 · Fort Mill, SC</small>
+            </div>
+          </header>
+          <ul>
+            <li>Designed an automation pipeline yielding 10× speedup during data migration and removing 1,000+ hours of manual work.</li>
+            <li>Redesigned migration procedures, cutting >50% of workload.</li>
+            <li>Migrated 1,000,000+ test evidence documents from ALM and established new infrastructure in Panaya Test Dynamix.</li>
+          </ul>
+        </article>
+        <article>
+          <header class="company">
+            <a href="https://www.clemson.edu/cecas/departments/computing/" target="_blank" rel="noopener">
+              <img class="company-logo" src="logos/clemson.png" alt="Clemson University logo">
+            </a>
+            <div>
+              <h3>Teaching Assistant — Clemson University School of Computing</h3>
+              <small>Aug 2023 – Dec 2023 · Clemson, SC</small>
+            </div>
+          </header>
+          <ul>
+            <li>Led bi-weekly C programming labs for a cohort of 45 students, fostering a structured and engaging learning environment.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section id="projects">
+        <h2>Projects</h2>
+        <div class="grid-cards">
+          <article>
+            <header><strong>ShadeShift</strong></header>
+            <p>IoT blinds automation using ESP‑32, stepper motor, and custom 3D-printed housing with Home Assistant integration via ESPHome.</p>
+            <footer>
+              <a href="#" target="_blank" rel="noopener">Demo</a>
+              <a href="https://github.com/brianwisniewski" target="_blank" rel="noopener">Code</a>
+            </footer>
+          </article>
+        </div>
+      </section>
+
+      <section id="education">
+        <h2>Education</h2>
+        <p><strong>B.S. Computer Science</strong>, Clemson University — May 2026 · MIS Minor · GPA 4.0</p>
+      </section>
+
+      <section id="contact">
+        <h2>Contact</h2>
+        <p>
+          <a href="mailto:bmwisni@clemson.edu">bmwisni@clemson.edu</a>
+          ·
+          <a href="https://www.linkedin.com/in/bmwisni" target="_blank" rel="noopener">LinkedIn</a>
+          ·
+          <a href="https://github.com/brianwisniewski" target="_blank" rel="noopener">GitHub</a>
+        </p>
+        <!-- <p><small>Phone: (704) 616-3345</small></p> -->
+      </section>
+    </main>
+
+    <footer class="container">
+      <small>© <span id="year"></span> Brian Wisniewski</small>
+    </footer>
+
+    <script>
+      // Footer year
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Theme handling (toggle light/dark and persist)
+      (function () {
+        const root = document.documentElement;
+        const key = 'theme';
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+        const saved = localStorage.getItem(key);
+        const initial = saved || (prefersDark.matches ? 'dark' : 'light');
+        root.setAttribute('data-theme', initial);
+
+        const btn = document.getElementById('themeToggle');
+        btn?.addEventListener('click', () => {
+          const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+          root.setAttribute('data-theme', next);
+          localStorage.setItem(key, next);
+        });
+      })();
+
+      // Badge tilt effect (subtle 3D based on cursor)
+      (function () {
+        const lerp = (a, b, n) => a + (b - a) * n;
+        document.querySelectorAll('.badge').forEach((el) => {
+          let rx = 0, ry = 0; // current tilt
+          let raf = null;
+
+          const update = () => {
+            el.style.setProperty('--rx', rx.toFixed(2) + 'deg');
+            el.style.setProperty('--ry', ry.toFixed(2) + 'deg');
+            el.style.setProperty('--tz', '8px');
+            raf = null;
+          };
+
+          el.addEventListener('pointerenter', () => el.classList.add('tilt'));
+          el.addEventListener('pointerleave', () => {
+            el.classList.remove('tilt');
+            rx = 0; ry = 0;
+            el.style.removeProperty('--rx');
+            el.style.removeProperty('--ry');
+            el.style.removeProperty('--tz');
+          });
+          el.addEventListener('pointermove', (e) => {
+            const r = el.getBoundingClientRect();
+            const px = (e.clientX - r.left) / r.width;  // 0..1
+            const py = (e.clientY - r.top) / r.height; // 0..1
+            // Map to degrees; small range for subtlety
+            const targetRy = (px - 0.5) * 14; // left/right tilt
+            const targetRx = (0.5 - py) * 14; // up/down tilt
+            rx = lerp(rx, targetRx, 0.35);
+            ry = lerp(ry, targetRy, 0.35);
+            if (!raf) raf = requestAnimationFrame(update);
+          });
+        });
+      })();
+    </script>
+  </body>
+  </html>
